@@ -2,12 +2,15 @@ import { useState } from "react";
 import Navbar from "../layouts/Navbar";
 import { useNavigate } from "react-router-dom";
 
+
+//An object used inside getProductProperties function to assign the fields to each product dynamically
 const productMap = {
     DVD:["size"],
     Book:["weight"],
     Furniture:["length","width","height"]
 }
 
+//A function that returns only the fields specific to the chosen product type
 const getProductProperties = (type, values)=>{
     const properties = productMap[type];
     return Object.keys(values).reduce((acc, currentValue)=>{
@@ -18,6 +21,7 @@ const getProductProperties = (type, values)=>{
     }, {})
 }
 
+//RegEx object of strings to check validity of input fields
 const regEx = {
     sku:/^[a-zA-Z0-9_-]{3,}$/,
     name:/^[a-zA-Z\d\s_-]+$/,
@@ -30,9 +34,11 @@ const regEx = {
     length:/^\d+$/
 }
 
+//The beginning of the components
 const AddProduct = () => {
     const navigate = useNavigate();
 
+    //A state for the input values
     const [values, setValues] = useState({
         sku: '',
         name: '',
@@ -45,6 +51,7 @@ const AddProduct = () => {
         size: '',
     });
 
+    //A state for the validity of input values
     const [isValid, setIsValid] = useState({
         sku: true,
         name: true,
@@ -57,6 +64,7 @@ const AddProduct = () => {
         size: true,
     });
 
+    //A state to check of input values
     const [isEmpty, setIsEmpty] = useState({
         sku: false,
         name: false,
@@ -69,6 +77,7 @@ const AddProduct = () => {
         size: false,
     });
 
+    //It retrieves data from the fields and updates the state of the values
     const handleChange = (event) => {
         const { name, value } = event.target;
         setValues((prevData)=>({
@@ -77,6 +86,8 @@ const AddProduct = () => {
         }));
     };
 
+    //If the product type is determined, it returns only the fields explusive to the chosen type
+    //If not, it returns all the fields
     const getSubmittedValues = ()=>{
         if(values.product_type){
             const temp = getProductProperties(values.product_type, values);
@@ -91,12 +102,15 @@ const AddProduct = () => {
         }
     }
 
+    //Submit function
     const handleSubmit = ()=>{
 
         let flag = false;
 
+
         let checkedValues = getSubmittedValues();
 
+        //Check if there are empty or invalid inputs
         for (let key in checkedValues) {
             if (checkedValues[key].trim()==='') {
                 setIsEmpty((prev)=>({...prev,[key]:true}));
@@ -113,11 +127,13 @@ const AddProduct = () => {
             }
         }
 
+        //If there is invalid or empty inputs, the function gets terminated
         if(flag){
             return;
         }
 
 
+        //POST request to add product
         fetch('https://scandiweb-youssef.000webhostapp.com/index.php', {
               method: 'POST',
               body: JSON.stringify({submit:checkedValues}),
@@ -153,6 +169,7 @@ const AddProduct = () => {
             
     }
 
+    //Save button passed to the navbar
     const buttonOne = {
         label:'Save',
         color:'rgb(7, 62, 180)',
@@ -162,6 +179,7 @@ const AddProduct = () => {
         }
     }
 
+    //Cancel button passed to the navbar
     const buttonTwo = {
         label:'Cancel',
         color:'rgb(187, 43, 57)',
@@ -182,10 +200,16 @@ const AddProduct = () => {
         }
     }
     return ( <>
+        {/* Navbar */}
         <Navbar title="Product Add" buttonOne={buttonOne} buttonTwo={buttonTwo} />
 
+        {/* Add product page */}
         <div className='page' style={{justifyContent:'flex-start', alignItems:'flex-start'}}>
+
+            {/* Form tag */}
             <form className="product-add-form" id="product_form">
+
+                {/* SKU field and it's warning messages */}
                 <div className="input-row">
                     <label htmlFor="sku">SKU</label>
                     <input type="text" value={values.sku} onChange={handleChange} name="sku" id="sku" required/>
@@ -194,6 +218,8 @@ const AddProduct = () => {
                 {!isValid['sku']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>
                     Please provide a value containing only letters, underscores, hyphens, and a minimum of 3 characters.
                 </p>}
+
+                {/* Name field and it's warning messages */}
                 <div className="input-row">
                     <label htmlFor="name">Name</label>
                     <input type="text" value={values.name} onChange={handleChange} name="name"  id="name" required/>
@@ -202,6 +228,8 @@ const AddProduct = () => {
                 {!isValid['name']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>
                     Please provide a value containing only letters, optional whitespace, digits, underscore, or hyphen.
                 </p>}
+
+                {/* Price field and it's warning messages */}
                 <div className="input-row">
                     <label htmlFor="price">Price ($)</label>
                     <input type="number" value={values.price} onChange={handleChange} name="price" id="price" required/>
@@ -210,6 +238,8 @@ const AddProduct = () => {
                 {!isValid['price']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>
                     Please provide a value that is a positive number with up to two decimal places.
                 </p>}
+
+                {/* Price field and it's warning messages */}
                 <div className="input-row">
                     <label htmlFor="product_type">Type Switcher</label>
                     <select 
@@ -226,6 +256,9 @@ const AddProduct = () => {
                     </select>
                 </div>
                 {isEmpty['product_type']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>Please, choose a type</p>}
+
+
+                {/* Conditional DVD field and it's warning messages */}
                 {values.product_type === "DVD" && (
                     <>
                         <div className="input-row">
@@ -240,6 +273,7 @@ const AddProduct = () => {
                     </>
                 )}
 
+                {/* Conditional Book field and it's warning messages */}
                 {values.product_type === "Book" && (
                     <>
                         <div className="input-row">
@@ -254,6 +288,7 @@ const AddProduct = () => {
                     </>
                 )}
 
+                {/* Conditional Furniture fields and their warning messages */}
                 {values.product_type === "Furniture" && (
                     <>
                         <div className="input-row">
@@ -283,6 +318,7 @@ const AddProduct = () => {
                         <p className="product-description">Please, provide dimensions in HxWxL format</p>
                     </>
                 )}
+
             </form>
         </div>
     </> );

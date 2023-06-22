@@ -8,6 +8,7 @@ const Home = () => {
     const [data, setData] = useState([]);
     const [checkedCards, setCheckedCards] = useState([]);
 
+    //A function to accumalates the SKUs of the checked products to be deleted
     const handleDeletedCards = (Id, isChecked)=>{
         if(isChecked){
             setCheckedCards(prev=>[...prev, Id])
@@ -19,6 +20,7 @@ const Home = () => {
         }
     }
 
+    //A function to accumalates the SKUs of the checked products to be deleted
     useEffect(() => {    
         fetch('https://scandiweb-youssef.000webhostapp.com/index.php')
             .then(response => response.json())
@@ -32,7 +34,7 @@ const Home = () => {
             });
     }, []);
 
-
+    //Add button passed to the navbarincluding the function that navigates to product add prage
     const buttonOne = {
         label:'ADD',
         color:'orange',
@@ -42,6 +44,7 @@ const Home = () => {
         }
     }
 
+    //Mass delete button passed to the navbar including the mass delete function
     const buttonTwo = {
         label:'MASS DELETE',
         color:'rgb(187, 43, 57)',
@@ -77,8 +80,11 @@ const Home = () => {
     }
 
     return ( <>
+        {/* Navigation bar */}
         <Navbar title="Product List" buttonOne={buttonOne} buttonTwo={buttonTwo} />
+        {/* Products list page */}
         <div className='page' >
+            {/* Listed products container */}
             <div className='cards-container'>
             {
                 data.map(item=>(

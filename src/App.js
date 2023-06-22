@@ -11,8 +11,8 @@ function App() {
     <Router basename='/'>
         <div className="App">
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/add-product" element={<AddProduct />} />
+            <Route index element={<Home />} />
+            <Route path="add-product" element={<AddProduct />} />
         </Routes>
         <Footer/>
         </div>
