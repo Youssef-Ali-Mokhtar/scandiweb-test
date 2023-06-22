@@ -1,38 +1,246 @@
 .App {
+  min-height: 100%;
   text-align: center;
+  padding: 0px 100px;
+  height: fit-content;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*{
+  padding:0;
+  margin:0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.footer{
+  width: 100%;
+  height: 12vh;
+  border-top: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbar{
+  width: 100%;
+  height: 12vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding:10px;
+  border-bottom: 1px solid lightgray;
+}
+
+.navbar-title{
+  font-family: sans-serif;
+  font-weight: 100;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.navbar-button{
+  padding:10px 15px;
+  margin: 0px 10px;
+  cursor: pointer;
+  background-color: lightgray;
+  border: 1px solid lightgray;
+  color:white;
+  border-radius: 3px;
+  /* box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.4); */
+}
+
+.page{
+  width: 100%;
+  min-height: 75vh;
+  padding: 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.cards-container{
+  width: 100%;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 260px);
+  justify-content: center;
+  align-items: center;
+  grid-gap: 25px;
+  box-sizing: border-box;
+}
+
+.product-card{
+  width: 260px;
+  height: 180px;
+  border: 1px solid lightgray;
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  box-sizing: border-box;
+  padding:15px 30px 30px 30px;
 }
 
-.App-link {
-  color: #61dafb;
+.product-card p{
+  padding:2px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.delete-checkbox-holder{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.delete-checkbox{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.buttons-holder{
+  display: flex;
+}
+
+.product-add-form{
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-add-form button{
+  width:fit-content;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.input-row{
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom:10px;
+}
+
+.input-row input{
+  padding:10px;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.input-row input:focus {
+  border: 1px solid rgba(0,123,255);
+  box-shadow: 0px 0px 5px -2px rgba(0,123,255);
+}
+
+.input-row select{
+  padding:10px;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+  outline:none;
+}
+
+.input-row select:focus {
+  border: 1px solid rgba(0,123,255);
+  box-shadow: 0px 0px 5px -2px rgba(0,123,255);
+}
+
+.input-row label{
+  padding:10px 0px;
+  text-align: start;
+}
+
+.product-description{
+  font-weight:bold; 
+  text-align:start; 
+  padding:20px 0px;
+}
+
+@media only screen and (max-width: 1060px) {
+  .App {
+    padding: 0px 60px;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media only screen and (max-width: 706px) {
+  .App {
+    padding: 0px 40px;
+  }
+
+  .navbar-title{
+    font-size: 22px;
+  }
+
+  .navbar-button{
+    padding:7px 9px;
+    margin: 2px;
+    font-size: 11px;
+  }
+
+  .footer p{
+    font-size: 14px;
+  }
+
+}
+
+@media only screen and (max-width: 450px) {
+  .App {
+    padding: 0px;
+  }
+
+  .input-row{
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:10px;
+  }
+
+  .product-add-form{
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-description{
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+
+  .navbar-title{
+    font-size: 18px;
+  }
+
+  .navbar-button{
+    padding:5px 6px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  .footer p{
+    font-size: 12px;
+  }
+
+}
+
+@media only screen and (max-width: 320px) {
+  .input-row label{
+    font-size: 12px;
+  }
+
+  .input-row input{
+    font-size: 12px;
+    padding:5px;
+  }
+
+  .input-row select{
+    font-size: 12px;
+    padding:5px;
+  }
+
+  .product-description{
+    font-size: 12px;
   }
 }
