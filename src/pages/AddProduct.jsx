@@ -134,7 +134,7 @@ const AddProduct = () => {
 
 
         //POST request to add product
-        fetch('https://scandiweb-youssef.000webhostapp.com/index.php', {
+        fetch('http://localhost/scandiweb/index.php', {
               method: 'POST',
               body: JSON.stringify({submit:checkedValues}),
           })
@@ -282,7 +282,7 @@ const AddProduct = () => {
                         </div>
                         {isEmpty['weight']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>Please, submit weight</p>}
                         {!isValid['weight']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>
-                            Please provide a value that is a positive number representing the weight in kilograms (KG).
+                            Please provide a value that is a positive integer representing the weight in kilograms (KG).
                         </p>}
                         <p className="product-description">Please, provide weight in Kg</p>
                     </>
@@ -297,7 +297,7 @@ const AddProduct = () => {
                         </div>
                         {isEmpty['height']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>Please, submit height</p>}
                         {!isValid['height']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>
-                            Please provide a value that is a positive number representing the height in centimeters (CM).
+                            Please provide a value that is a positive integer representing the height in centimeters (CM).
                         </p>}
                         <div className="input-row">
                             <label htmlFor="width">Width (CM)</label>
@@ -305,7 +305,7 @@ const AddProduct = () => {
                         </div>
                         {isEmpty['width']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>Please, submit width</p>}
                         {!isValid['width']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>
-                            Please provide a value that is a positive number representing the width in centimeters (CM).
+                            Please provide a value that is a positive integer representing the width in centimeters (CM).
                         </p>}
                         <div className="input-row">
                             <label htmlFor="length">Length (CM)</label>
@@ -313,7 +313,7 @@ const AddProduct = () => {
                         </div>
                         {isEmpty['length']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>Please, submit length</p>}
                         {!isValid['length']&&<p style={{color:'red', textAlign:'start',paddingBottom:'10px'}}>
-                            Please provide a value that is a positive number representing the length in centimeters (CM).
+                            Please provide a value that is a positive integer representing the length in centimeters (CM).
                         </p>}
                         <p className="product-description">Please, provide dimensions in HxWxL format</p>
                     </>

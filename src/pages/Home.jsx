@@ -22,7 +22,7 @@ const Home = () => {
 
     //A function to accumalates the SKUs of the checked products to be deleted
     useEffect(() => {    
-        fetch('https://scandiweb-youssef.000webhostapp.com/index.php')
+        fetch('http://localhost/scandiweb/index.php')
             .then(response => response.json())
             .then(data => {
                 // Process the received data
@@ -53,7 +53,7 @@ const Home = () => {
                 !checkedCards.includes(productData.sku)
             ));
             if(checkedCards.length>0){
-                fetch('https://scandiweb-youssef.000webhostapp.com/index.php', {
+                fetch('http://localhost/scandiweb/index.php', {
                     method: 'POST',
                     body: JSON.stringify({delete:checkedCards}),
                 })
