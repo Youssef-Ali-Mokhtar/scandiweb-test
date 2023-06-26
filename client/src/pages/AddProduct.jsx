@@ -134,7 +134,7 @@ const AddProduct = () => {
 
 
         //POST request to add product
-        fetch('http://localhost/scandiweb/index.php', {
+        fetch('https://scandiweb-youssef.000webhostapp.com/index.php', {
               method: 'POST',
               body: JSON.stringify({submit:checkedValues}),
           })
