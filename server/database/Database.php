@@ -1,14 +1,16 @@
 <?php
-    class Database{
+    class Database {
         private $conn;
-        public static $sqlDisplay = 'SELECT p.sku, p.name, p.price, p.product_type FROM product AS p';
+        private static $sqlDisplay = 'SELECT p.sku, p.name, p.price, p.product_type FROM product AS p';
 
         public function __construct() {
             $this->connect();
         }
 
-        //Connect to database
-        public function connect() {
+        /**
+         * Connects to database
+         */
+        private function connect() {
             //local machine configuration
 			$servername = 'localhost';
 			$username = 'youssef';
@@ -23,7 +25,13 @@
             }
         }
 
-        //A function to inject a new child to display sql query string
+        /**
+         * Injects table attributes for SELECT and concatenates table names for JOIN to construct 
+         * the mysql query used to fetch from the database the products needed to be listed
+         *
+         * @param string $class The name of the table.
+         * @param array $attributes The array that holds the columns name.
+         */
         public static function updateDisplaySql($class, $attributes) {
             $prefixedAttributes = array_map(function ($attribute) use ($class) {
                 return $class['0'] . '.' . $attribute;
@@ -34,13 +42,11 @@
             self::$sqlDisplay .= " LEFT JOIN  ". $class . " AS " . $class[0] . " ON p.sku = " . $class[0] . ".sku";
         }
 
-        //To reset sqlDisplay to it's original form 
-        //(in case I want to display only one table, I need to make sure the sqlDisplay is empty from other tables)
-        public static function resetDisplaySql() {
-            self::$sqlDisplay = 'SELECT p.sku, p.name, p.price, p.product_type FROM product AS p';
-        }
 
-        //Add product to database
+        /**
+         * Adds product to database
+         * @param string $sql The constructed query to add a product to the database
+         */
         public function saveProduct($sql) {
             try {
                 if ($this->conn->multi_query($sql) === TRUE) {
@@ -56,8 +62,9 @@
             }
         }
              
-
-        //Delete products from database
+        /**
+         * //Deletes products from database
+         */
         public function removeProducts($sql, $table) {
             try {
                 if ($this->conn->multi_query($sql) === TRUE) {
@@ -74,11 +81,14 @@
             }
         }
 
-        //Get products from database
+        /**
+         * Fetches products from database
+         */
         public function fetchProducts() {
             try {
                 $result = $this->conn->query(self::$sqlDisplay);
                 $products = $result->fetch_all(MYSQLI_ASSOC);
+
                 if ($products > 0) {
                     echo json_encode($products);
                 } else {

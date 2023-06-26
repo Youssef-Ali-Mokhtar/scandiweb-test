@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <Router basename='/'>
+    <Router basename='/scandiweb-test'>
         <div className="App">
         <Routes>
             <Route index element={<Home />} />

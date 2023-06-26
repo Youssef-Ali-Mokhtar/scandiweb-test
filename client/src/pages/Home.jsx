@@ -27,6 +27,7 @@ const Home = () => {
             .then(data => {
                 // Process the received data
                 setData(data);
+                console.log(data);
             })
             .catch(error => {
                 // Handle any errors

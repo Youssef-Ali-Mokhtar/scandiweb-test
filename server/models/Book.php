@@ -1,12 +1,14 @@
 <?php
-    require_once 'Database.php';
+    require_once 'database/Database.php';
     require_once 'Product.php';
+    require_once './utility/Validation.php';
+    
     class Book extends Product {
         private $weight;
 
-        public function __construct($sku, $name, $price, $weight) {
-            parent::__construct($sku, $name, $price, 'Book');
-            $this->setWeight($weight);
+        public function __construct($data) {
+            parent::__construct($data);
+            $this->setWeight(validate($data['weight'], 'weight'));
         }
 
         public function getWeight() {
@@ -17,7 +19,9 @@
             $this->weight = $weight;
         }
 
-        //Add a book to database
+        /**
+         * Adds book to database
+         */
         public function addProduct() {
             $sql = "INSERT INTO product VALUES('" . $this->getSku() . "', '" . $this->getName() . "', " . $this->getPrice() . ", '" . $this->getProductType() . "');";
             $sql .= "INSERT INTO book VALUES('" . $this->getSku() . "', " . $this->getWeight() . ");";

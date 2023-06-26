@@ -1,22 +1,17 @@
 <?php 
 
-    $regEx = [
-        'sku'=>"/^[a-zA-Z0-9_-]{3,}$/",
-        'name'=>"/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/",
-        'price'=>"/^\d+(\.\d{1,2})?$/",
-        'size'=>"/^\d+$/",
-        'product_type'=>"/(Book|Furniture|DVD)/i",
-        'weight'=>"/^\d+$/",
-        'height'=>"/^\d+$/",
-        'width'=>"/^\d+$/",
-        'length'=>"/^\d+$/"
-    ];
-
-    function validate($data, $key){
-        if(empty($data)){
+    /**
+     * Validates the input by checking if it's empty then returns the value wrapped in
+     * htmlspecialchars() functions to protect the server from XSS attacks
+     * 
+     * @param string $data The value of a property submitted
+     * @param string $key The key of the value submitted
+     */
+    function validate($data, $key) {
+        if(empty($data)) {
             echo json_encode("Please, submit " . $key);
             exit(0);
-        }else{
+        } else {
             return htmlspecialchars($data);
         }
     }
