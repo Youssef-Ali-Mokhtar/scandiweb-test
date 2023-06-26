@@ -14,19 +14,23 @@
             $productType = validate($data['product_type'], 'product_type');
 
             //Applying polymorphism to assign the right object to $product based on the entered product type
-            if ($productType === 'Furniture') {
-				return new Furniture($data);
 
-			} elseif ($productType === 'DVD') {
-				return new DVD($data);
+            $productClasses = [
+                'Furniture' => 'Furniture',
+                'DVD' => 'DVD',
+                'Book' => 'Book',
+                // Add more product types and corresponding class names as needed
+            ];
+    
+            $className = $productClasses[$productType] ?? null;
+    
+            if ($className) {
+                return new $className($data);
+            } else {
+                // Invalid product type
+                die('Invalid product type');
+            }
 
-			} elseif ($productType === 'Book') {
-				return new Book($data);
-
-			} else {
-				// Invalid product type
-				die('Invalid product type');
-			}
         }
     }
 ?>
