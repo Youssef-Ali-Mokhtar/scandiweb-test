@@ -1,7 +1,8 @@
 <?php 
-    require_once "./models/Product.php";
-    require_once "./models/DisplayFactory.php";
-    
+    namespace controllers;
+    use \models\DisplayFactory;
+    use \models\Product;
+
     class ViewController {
 
         /**

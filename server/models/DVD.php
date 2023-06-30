@@ -1,14 +1,15 @@
 <?php
-    require_once 'database/Database.php';
-    require_once 'Product.php';
-    require_once './utility/Validation.php';
-    
-    class DVD extends Product {
+    namespace models;
+    use \ProductRepository;
+    use \models\Product;
+    use \utility\Validation;
+
+    class DVD extends Product{
         private $size;
 
-        public function __construct($data){
+        public function __construct($data) {
             parent::__construct($data);
-            $this->setSize(validate($data['size'], 'size'));
+            $this->setSize(Validation::validate($data['size'], 'size'));
         }
 
         public function getSize() {
@@ -19,14 +20,17 @@
             $this->size = $size;
         }
 
+        public function getChildProperties(){
+            return [$this->sku, $this->size];
+        }
+
         /**
-         * Adds dvd to database
+         * Adds book to database
          */
         public function addProduct() {
-            $sql = "INSERT INTO product VALUES('" . $this->getSku() . "', '" . $this->getName() . "', " . $this->getPrice() . ", '" . $this->getProductType() . "');";
-            $sql .= "INSERT INTO dvd VALUES('" . $this->getSku() . "', " . $this->getSize() . ");";
-            $database = new Database();
-            $database->saveProduct($sql);
+            $productRepository = new ProductRepository();
+            $productRepository->addProductToDatabase('dvd', $this->getParentProperties(), $this->getChildProperties());
         }
+
     }
 ?>

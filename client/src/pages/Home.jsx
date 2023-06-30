@@ -87,7 +87,7 @@ const Home = () => {
         <div className='page' >
             {/* Listed products container */}
             <div className='cards-container'>
-            {
+            {    
                 data.map(item=>(
                     <ProductCard key={item.sku} specs={item} handleDeletedCards={handleDeletedCards}/>
                 ))

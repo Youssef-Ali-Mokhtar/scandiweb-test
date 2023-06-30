@@ -1,7 +1,6 @@
 <?php
-
-    require_once './utility/Validation.php';
-    require_once './models/ProductFactory.php';
+    namespace controllers;
+    use \models\ProductFactory;
 
     class AddController {
         /**
@@ -15,4 +14,5 @@
             $product->addProduct();
         }
     }
+            
 ?>

@@ -1,5 +1,7 @@
 <?php 
-    require_once "./models/Product.php";
+    namespace controllers;
+    use \models\Product;
+
     class DeleteController {
         /**
          * Passes table names that will have products deleted from

@@ -1,7 +1,8 @@
 <?php
-    require_once 'database/Database.php';
-    require_once 'Product.php';
-    require_once './utility/Validation.php';
+    namespace models;
+    use \ProductRepository;
+    use \models\Product;
+    use \utility\Validation;
     
     class Furniture extends Product {
         private $height;
@@ -10,9 +11,9 @@
 
         public function __construct($data) {
             parent::__construct($data);
-            $this->setHeight(validate($data['height'], 'height'));
-            $this->setWidth(validate($data['width'], 'width'));
-            $this->setLength(validate($data['length'], 'length'));
+            $this->setHeight(Validation::validate($data['height'], 'height'));
+            $this->setWidth(Validation::validate($data['width'], 'width'));
+            $this->setLength(Validation::validate($data['length'], 'length'));
         }
 
         public function getHeight() {
@@ -39,14 +40,16 @@
             $this->length = $length;
         }
 
+        public function getChildProperties(){
+            return [$this->sku, $this->height, $this->width, $this->length];
+        }
+
         /**
          * Adds furniture to database
          */
         public function addProduct() {
-            $sql = "INSERT INTO product VALUES('" . $this->getSku() . "', '" . $this->getName() . "', " . $this->getPrice() . ", '" . $this->getProductType() . "');";
-            $sql .= "INSERT INTO furniture VALUES('" . $this->getSku() . "', " . $this->getHeight() . ", " . $this->getWidth() . ", " . $this->getLength() . ");";
-            $database = new Database();
-            $database->saveProduct($sql);
+            $productRepository = new ProductRepository();
+            $productRepository->addProductToDatabase('furniture', $this->getParentProperties(), $this->getChildProperties());
         }
     }
 ?>

@@ -1,4 +1,6 @@
 <?php
+    namespace database;
+
     class Database {
         private $conn;
         private static $sqlDisplay = 'SELECT p.sku, p.name, p.price, p.product_type FROM product AS p';
@@ -18,7 +20,7 @@
 			$dbname = 'scandiweb_test';
 
             // Create connection
-            $this->conn = new mysqli($servername, $username, $password, $dbname);
+            $this->conn = new \mysqli($servername, $username, $password, $dbname);
             // Check connection
             if ($this->conn->connect_error) {
                 die("Connection failed: " . $this->conn->connect_error);

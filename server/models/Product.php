@@ -1,6 +1,7 @@
 <?php
-    require_once "database/Database.php";
-    require_once './utility/Validation.php';
+    namespace models;
+    use \ProductRepository;
+    use \utility\Validation;
     
     abstract class Product {
         protected $sku;
@@ -9,10 +10,10 @@
         protected $productType;
 
         protected function __construct($data) {
-            $this->setSku(validate($data['sku'], 'sku'));
-            $this->setName(validate($data['name'], 'name'));
-            $this->setPrice(validate($data['price'], 'price'));
-            $this->setProductType(validate($data['product_type'], 'product_type'));
+            $this->setSku(Validation::validate($data['sku'], 'sku'));
+            $this->setName(Validation::validate($data['name'], 'name'));
+            $this->setPrice(Validation::validate($data['price'], 'price'));
+            $this->setProductType(Validation::validate($data['product_type'], 'product_type'));
         }
 
         protected function getSku() {
@@ -47,11 +48,16 @@
             $this->productType = $setProductType;
         }
 
+        protected function getParentProperties() {
+            return [$this->sku, $this->name, $this->price, $this->productType];
+        }
+
+        protected abstract function getChildProperties();
+
         /**
          * Adds different products with different queries depending on the subclass
          */
         protected abstract function addProduct();
-
 
         /**
          * Deletes all products in $tables that have the SKUs in $arrSku
@@ -59,29 +65,20 @@
          * @param array $arrSku SKUs of the products that have to be deleted 
          * @param array $tables Database tables that we will delete from
          */
-        public static function deleteProducts($arrSku, $tables) {        
-            foreach($tables as $table) {
-                $sql = "DELETE FROM " .$table. " WHERE sku IN ('". implode("','",$arrSku) ."'); ";
-                $database = new Database();
-                $database->removeProducts($sql, $table);
-            }
+        public static function deleteProducts($arrSku, $tables) {
+            $productRepository = new ProductRepository();
+            $productRepository->deleteProductsFromDatabase($arrSku, $tables);
         }
 
         /**
-         * Fetches all the products in the passed product types
+         * Fetches all the products through the passed product types
          * 
          * @param array $tables Associative array of product types (key) and their exclusive properties (value)
          */
         public static function displayProducts($tables) {
-
             //Inject table attirbutes and table names into sql query
-            foreach($tables as $key => $value) {
-                Database::updateDisplaySql($key, $value);
-            }
-
-            //Fetch the tables after constructing the query
-            $database = new Database();
-            $database->fetchProducts();
+            $productRepository = new ProductRepository();
+            $productRepository->viewProductsFromDatabase($tables);
         }
         
     }
